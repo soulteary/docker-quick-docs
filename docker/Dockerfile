@@ -8,7 +8,7 @@ WORKDIR /build
 ENV CGO_ENABLED=0
 COPY . .
 RUN go build -ldflags "-w -s"
-RUN upx -9 -o docker-quick-docs.minify docker-quick-docs && mv docker-quick-docs.minify docker-quick-docs
+RUN upx -9 -o quick-docs.minify quick-docs && mv quick-docs.minify quick-docs
 
 FROM alpine:3.19
 RUN echo '' > /etc/apk/repositories && \
@@ -17,5 +17,5 @@ RUN echo '' > /etc/apk/repositories && \
     echo "Asia/Shanghai" > /etc/timezone
 RUN apk add openssl && rm -rf /var/cache/apk/*
 WORKDIR /app
-COPY --from=Builder /build/docker-quick-docs /bin/docker-quick-docs
+COPY --from=Builder /build/quick-docs /bin/quick-docs
 ENTRYPOINT ["quick-docs"]

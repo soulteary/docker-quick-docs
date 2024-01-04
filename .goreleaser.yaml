@@ -1,4 +1,4 @@
-project_name: token-calc
+project_name: quick-docs
 
 builds:
   - <<: &build_defaults
@@ -21,8 +21,8 @@ builds:
 dockers:
 
   - image_templates:
-      - "github.com/soulteary/docker-quick-docs:linux-amd64-{{ .Tag }}"
-      - "github.com/soulteary/docker-quick-docs:linux-amd64"
+      - "soulteary/docker-quick-docs:linux-amd64-{{ .Tag }}"
+      - "soulteary/docker-quick-docs:linux-amd64"
     dockerfile: docker/Dockerfile.goreleaser
     use: buildx
     goarch: amd64
@@ -39,8 +39,8 @@ dockers:
       - "--label=org.opencontainers.image.licenses=Apache-V2"
 
   - image_templates:
-      - "github.com/soulteary/docker-quick-docs:linux-arm64-{{ .Tag }}"
-      - "github.com/soulteary/docker-quick-docs:linux-arm64"
+      - "soulteary/docker-quick-docs:linux-arm64-{{ .Tag }}"
+      - "soulteary/docker-quick-docs:linux-arm64"
     dockerfile: docker/Dockerfile.goreleaser
     use: buildx
     goos: linux
@@ -59,8 +59,8 @@ dockers:
       - "--label=org.opencontainers.image.licenses=Apache-V2"
 
   - image_templates:
-      - "github.com/soulteary/docker-quick-docs:linux-armv7-{{ .Tag }}"
-      - "github.com/soulteary/docker-quick-docs:linux-armv7"
+      - "soulteary/docker-quick-docs:linux-armv7-{{ .Tag }}"
+      - "soulteary/docker-quick-docs:linux-armv7"
     dockerfile: docker/Dockerfile.goreleaser
     use: buildx
     goos: linux
@@ -79,8 +79,8 @@ dockers:
       - "--label=org.opencontainers.image.licenses=Apache-V2"
 
   - image_templates:
-      - "github.com/soulteary/docker-quick-docs:linux-armv6-{{ .Tag }}"
-      - "github.com/soulteary/docker-quick-docs:linux-armv6"
+      - "soulteary/docker-quick-docs:linux-armv6-{{ .Tag }}"
+      - "soulteary/docker-quick-docs:linux-armv6"
     dockerfile: docker/Dockerfile.goreleaser
     use: buildx
     goos: linux
@@ -100,18 +100,18 @@ dockers:
 
 
 docker_manifests:
-  - name_template: "github.com/soulteary/docker-quick-docs:{{ .Tag }}"
+  - name_template: "soulteary/docker-quick-docs:{{ .Tag }}"
     image_templates:
-      - "github.com/soulteary/docker-quick-docs:linux-amd64-{{ .Tag }}"
-      - "github.com/soulteary/docker-quick-docs:linux-arm64-{{ .Tag }}"
-      - "github.com/soulteary/docker-quick-docs:linux-armv7-{{ .Tag }}"
-      - "github.com/soulteary/docker-quick-docs:linux-armv6-{{ .Tag }}"
+      - "soulteary/docker-quick-docs:linux-amd64-{{ .Tag }}"
+      - "soulteary/docker-quick-docs:linux-arm64-{{ .Tag }}"
+      - "soulteary/docker-quick-docs:linux-armv7-{{ .Tag }}"
+      - "soulteary/docker-quick-docs:linux-armv6-{{ .Tag }}"
     skip_push: "false"
 
-  - name_template: "github.com/soulteary/docker-quick-docs:latest"
+  - name_template: "soulteary/docker-quick-docs:latest"
     image_templates:
-      - "github.com/soulteary/docker-quick-docs:linux-amd64-{{ .Tag }}"
-      - "github.com/soulteary/docker-quick-docs:linux-arm64-{{ .Tag }}"
-      - "github.com/soulteary/docker-quick-docs:linux-armv7-{{ .Tag }}"
-      - "github.com/soulteary/docker-quick-docs:linux-armv6-{{ .Tag }}"
+      - "soulteary/docker-quick-docs:linux-amd64-{{ .Tag }}"
+      - "soulteary/docker-quick-docs:linux-arm64-{{ .Tag }}"
+      - "soulteary/docker-quick-docs:linux-armv7-{{ .Tag }}"
+      - "soulteary/docker-quick-docs:linux-armv6-{{ .Tag }}"
     skip_push: "false"
