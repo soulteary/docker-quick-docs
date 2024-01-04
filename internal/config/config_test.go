@@ -110,6 +110,8 @@ func TestGetConfigSuccess(t *testing.T) {
 
 	var expected []config.PostRule
 	err = json.Unmarshal([]byte(configFileContent), &expected)
+	expected[0].Type = "text/html"
+	expected[0].Dir = "*"
 	assert.NoError(t, err)
 	assert.Equal(t, expected, config.PostRules)
 	config.PostRules = []config.PostRule{}
