@@ -1,0 +1,4 @@
+coverage.html
+coverage.out
+docs/*
+!docs/README.md

@@ -1,0 +1,28 @@
+[
+    {
+        "from": "https://ecomfe.github.io/san/",
+        "to": "/san/",
+        "type": "html",
+        "dir": "/san/"
+    },
+    {
+        "from": "https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css",
+        "to": "/cdn/docsearch.min.css"
+    },
+    {
+        "from": "https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js",
+        "to": "/cdn/docsearch.min.js"
+    },
+    {
+        "from": "https://ghbtns.com/github-btn.html",
+        "to": "img/logo-colorful.svg"
+    },
+    {
+        "from": "https://github.com/baidu/san-router",
+        "to": "/san-router/"
+    },
+    {
+        "from": "https://ecomfe.github.io/santd/",
+        "to": "/santd/"
+    }
+]
