@@ -4,6 +4,7 @@ import (
 	"embed"
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	static "github.com/soulteary/gin-static"
@@ -15,6 +16,7 @@ func InternalServer(host string, port int, dirRoot string, embedFS embed.FS, emb
 	if embedMode {
 		r.NoRoute(static.ServeEmbed(dirRoot, embedFS))
 	} else {
+		os.MkdirAll(dirRoot, os.ModePerm)
 		r.Use(static.Serve("/", static.LocalFile(dirRoot, true)))
 	}
 

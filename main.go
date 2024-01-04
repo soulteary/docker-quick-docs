@@ -12,6 +12,6 @@ import (
 var EmbedFS embed.FS
 
 func main() {
-	log.Println("Docker Quick Docs", version.Version)
+	log.Println("Quick Docs", version.Version)
 	server.Launch(EmbedFS)
 }
