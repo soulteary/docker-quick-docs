@@ -5,7 +5,7 @@ builds:
       env:
         - CGO_ENABLED=0
       ldflags:
-        - -X "github.com/soulteary/docker-quick-docs/main.Version={{ .Tag }}"
+        - -X "github.com/soulteary/docker-quick-docs/version.Version={{ .Tag }}"
     id: macos
     goos: [ darwin ]
     goarch: [ amd64, arm64 ]

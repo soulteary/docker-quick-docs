@@ -16,8 +16,9 @@ func ReadConfigFile(defaultFile string) ([]byte, error) {
 	}
 	buf, err := os.ReadFile(configFile)
 	if err != nil {
-		log.Println("请确认当前目录下存在 config.json 文件")
-		log.Println(err)
+		if configFile != defaultFile {
+			log.Println("读取配置文件失败，确认文件路径是否正确:", configFile)
+		}
 		return []byte(""), err
 	}
 	return buf, nil

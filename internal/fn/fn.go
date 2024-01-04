@@ -12,18 +12,18 @@ func GetPort() int {
 	portStr := os.Getenv("PORT")
 
 	if portStr == "" {
-		log.Printf("The PORT environment is empty, using the default port: %d\n", defaultPort)
+		log.Printf("未设置环境变量 `PORT`，使用默认端口：%d\n", defaultPort)
 		return defaultPort
 	}
 
 	port, err := strconv.Atoi(portStr)
 	if err != nil {
-		log.Printf("The PORT environment is not a valid integer, using the default port: %d\n", defaultPort)
+		log.Printf("环境变量 `PORT` 设置不正确，使用默认端口：%d\n", defaultPort)
 		return defaultPort
 	}
 
 	if port < 1 || port > 65535 {
-		log.Printf("The PORT environment is not a valid port number, using the default port: %d\n", defaultPort)
+		log.Printf("环境变量 `PORT` 设置不正确，使用默认端口：%d\n", defaultPort)
 		return defaultPort
 	}
 	return port
