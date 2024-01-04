@@ -9,8 +9,9 @@ import (
 
 //go:embed docs
 var EmbedFS embed.FS
+var Version = "dev"
 
 func main() {
-	log.Println("Docker Quick Docs")
+	log.Println("Docker Quick Docs", Version)
 	server.Launch(EmbedFS)
 }
