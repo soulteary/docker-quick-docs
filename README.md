@@ -15,7 +15,7 @@
 ![](.github/dockerhub.jpg)
 
 ```bash
-docker pull soulteary/docker-quick-docs:v0.1.0
+docker pull soulteary/docker-quick-docs:v0.1.2
 # 或者
 docker pull soulteary/docker-quick-docs
 ```
@@ -51,7 +51,7 @@ mv san docs/
 ./quick-docs
 
 # 如果你选择使用 docker
-docker run --rm -it -v `pwd`/docs:/app/docs -p 8080:8080 soulteary/docker-quick-docs:v0.1.0
+docker run --rm -it -v `pwd`/docs:/app/docs -p 8080:8080 soulteary/docker-quick-docs:v0.1.2
 ```
 
 程序执行完毕，我们将看到类似下面的日志：
@@ -62,3 +62,15 @@ docker run --rm -it -v `pwd`/docs:/app/docs -p 8080:8080 soulteary/docker-quick-
 ```
 
 此时访问浏览器，就能够快速的访问文档啦。
+
+## 配置
+
+如果你想调整端口，可以设置 `PORT` 环境变量。
+
+例如：
+
+```bash
+PORT=8080 ./quick-docs
+# 或
+docker run --rm -it -e PORT=8080 -v `pwd`/docs:/app/docs -p 8080:8080 soulteary/docker-quick-docs:v0.1.2
+```
