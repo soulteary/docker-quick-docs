@@ -75,8 +75,8 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/rogpeppe/go-internal v1.6.1/go.mod h1:xXDCJY+GAPziupqXw64V24skbSoqbTEfhy4qGm1nDQc=
 github.com/rogpeppe/go-internal v1.8.0 h1:FCbCCtXNOY3UtUuHUYaghJg4y7Fd14rXifAYUAtL9R8=
 github.com/rogpeppe/go-internal v1.8.0/go.mod h1:WmiCO8CzOY8rg0OYDC4/i/2WRWAB6poM+XZ2dLUbcbE=
-github.com/soulteary/gin-static v0.0.5 h1:bMeZJcy6fsKtdkM5V9a0yriCqDVFS4wWBf9n/oUVuKw=
-github.com/soulteary/gin-static v0.0.5/go.mod h1:exD38V9IGAFmcvahpTW0tUhcZ4NbKsUl0p9Iti6pjCY=
+github.com/soulteary/gin-static v0.0.6 h1:jFjCOk4SeEp7sewyvY+gzhAurzhobDx67221DFFrQKI=
+github.com/soulteary/gin-static v0.0.6/go.mod h1:mSjn9L5s8rfYFVeUWu+3oP5cmXEl/htam3jFEMoFr08=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.4.0/go.mod h1:YvHI0jy2hoMjB+UWwv71VJQ9isScKT/TqJzVSSt89Yw=
 github.com/stretchr/objx v0.5.0/go.mod h1:Yh+to48EsGEfYuaHDzXPcE3xhTkx73EhmCGUpEOglKo=

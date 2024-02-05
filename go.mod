@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/gin-contrib/gzip v0.0.6
 	github.com/gin-gonic/gin v1.9.1
-	github.com/soulteary/gin-static v0.0.5
+	github.com/soulteary/gin-static v0.0.6
 	github.com/stretchr/testify v1.8.4
 )
 
