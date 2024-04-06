@@ -1,13 +1,11 @@
 module github.com/soulteary/docker-quick-docs
 
-go 1.22
-
-toolchain go1.22.0
+go 1.22.2
 
 require (
 	github.com/gin-contrib/gzip v1.0.0
 	github.com/gin-gonic/gin v1.9.1
-	github.com/soulteary/gin-static v0.2.0
+	github.com/soulteary/gin-static v0.2.1
 	github.com/stretchr/testify v1.9.0
 )
 
