@@ -2,7 +2,7 @@ version: "3"
 
 services:
   docker-quick-docs:
-    image: soulteary/docker-quick-docs:v0.1.3
+    image: soulteary/docker-quick-docs:v0.1.4
     restart: always
     ports:
       - 8080:8080
