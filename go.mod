@@ -6,7 +6,7 @@ require (
 	github.com/gin-contrib/gzip v1.0.0
 	github.com/gin-gonic/gin v1.10.0
 	github.com/soulteary/gin-static v0.2.3
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.10.0
 )
 
 require (
