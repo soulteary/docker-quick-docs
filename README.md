@@ -15,7 +15,7 @@
 ![](.github/dockerhub.jpg)
 
 ```bash
-docker pull soulteary/docker-quick-docs:v0.1.4
+docker pull soulteary/docker-quick-docs:v0.1.6
 # 或者
 docker pull soulteary/docker-quick-docs
 ```
@@ -51,7 +51,7 @@ mv san docs/
 ./quick-docs
 
 # 如果你选择使用 docker
-docker run --rm -it -v `pwd`/docs:/app/docs -p 8080:8080 soulteary/docker-quick-docs:v0.1.4
+docker run --rm -it -v `pwd`/docs:/app/docs -p 8080:8080 soulteary/docker-quick-docs:v0.1.6
 ```
 
 程序执行完毕，我们将看到类似下面的日志：
@@ -72,5 +72,5 @@ docker run --rm -it -v `pwd`/docs:/app/docs -p 8080:8080 soulteary/docker-quick-
 ```bash
 PORT=8080 ./quick-docs
 # 或
-docker run --rm -it -e PORT=8080 -v `pwd`/docs:/app/docs -p 8080:8080 soulteary/docker-quick-docs:v0.1.4
+docker run --rm -it -e PORT=8080 -v `pwd`/docs:/app/docs -p 8080:8080 soulteary/docker-quick-docs:v0.1.6
 ```
