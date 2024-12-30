@@ -3,7 +3,7 @@ module github.com/soulteary/docker-quick-docs
 go 1.23.3
 
 require (
-	github.com/gin-contrib/gzip v1.0.1
+	github.com/gin-contrib/gzip v1.1.0
 	github.com/gin-gonic/gin v1.10.0
 	github.com/soulteary/gin-static v0.2.5
 	github.com/stretchr/testify v1.10.0
