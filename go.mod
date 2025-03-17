@@ -1,17 +1,16 @@
 module github.com/soulteary/docker-quick-docs
 
 go 1.23.3
-
 require (
 	github.com/gin-contrib/gzip v1.2.2
 	github.com/gin-gonic/gin v1.10.0
-	github.com/soulteary/gin-static v0.2.5
+	github.com/soulteary/gin-static v0.2.6
 	github.com/stretchr/testify v1.10.0
 )
 
 require (
-	github.com/bytedance/sonic v1.12.10 // indirect
-	github.com/bytedance/sonic/loader v0.2.3 // indirect
+	github.com/bytedance/sonic v1.13.1 // indirect
+	github.com/bytedance/sonic/loader v0.2.4 // indirect
 	github.com/cloudwego/base64x v0.1.5 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.8 // indirect
