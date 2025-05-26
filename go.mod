@@ -4,7 +4,7 @@ go 1.23.3
 
 require (
 	github.com/gin-contrib/gzip v1.2.2
-	github.com/gin-gonic/gin v1.10.0
+	github.com/gin-gonic/gin v1.10.1
 	github.com/soulteary/gin-static v0.2.5
 	github.com/stretchr/testify v1.10.0
 )
