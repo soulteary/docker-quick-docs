@@ -1,6 +1,6 @@
 module github.com/soulteary/docker-quick-docs
 
-go 1.25.0
+go 1.26.0
 
 require (
 	github.com/gin-contrib/gzip v1.2.6
