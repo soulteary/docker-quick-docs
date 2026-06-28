@@ -18,6 +18,11 @@ builds:
       - "7"
       - "6"
 
+  - <<: *build_defaults
+    id: windows
+    goos: [windows]
+    goarch: [amd64, arm64]
+
 dockers:
 
   - image_templates:

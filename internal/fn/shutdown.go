@@ -1,5 +1,5 @@
 /**
- * Copyright 2023-2025 Su Yang (soulteary)
+ * Copyright 2024-2026 Su Yang (soulteary)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,25 @@
  * limitations under the License.
  */
 
-package server
+package fn
 
 import (
-	"fmt"
-
-	"github.com/gin-contrib/gzip"
-	"github.com/gin-gonic/gin"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
-func PublicServer(host string, port int, forwarder func(c *gin.Context)) {
-	r := gin.New()
-	r.Use(gin.Recovery())
-	r.Use(gzip.Gzip(gzip.DefaultCompression))
-	r.Any("/*path", forwarder)
-	r.Run(fmt.Sprintf("%s:%d", host, port))
+type shutdownApp interface {
+	Shutdown() error
+}
+
+func WaitForShutdown(app shutdownApp) {
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+	log.Println("正在关闭服务...")
+	if err := app.Shutdown(); err != nil {
+		log.Println("关闭服务失败:", err)
+	}
 }

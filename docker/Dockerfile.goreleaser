@@ -1,5 +1,6 @@
-FROM alpine:3.16
+FROM alpine:3.19
 RUN apk add openssl && rm -rf /var/cache/apk/*
 WORKDIR /app
 COPY quick-docs /bin/quick-docs
+COPY config.json /app/config.json
 ENTRYPOINT ["quick-docs"]

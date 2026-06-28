@@ -1,5 +1,5 @@
 /**
- * Copyright 2023-2025 Su Yang (soulteary)
+ * Copyright 2024-2026 Su Yang (soulteary)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,22 +18,27 @@ package network
 
 import (
 	"bytes"
-	"fmt"
-	"io"
-	"net/http"
-	"net/http/httputil"
-	"net/url"
-	"strconv"
 	"strings"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v3"
 	"github.com/soulteary/docker-quick-docs/internal/config"
 )
 
+var noiseReplacements = [][2]string{
+	{"https://www.googletagmanager.com/gtag/js", "/keep-quiet.js"},
+	{"https://www.google-analytics.com/analytics.js", "/keep-quiet.js"},
+	{"https://hm.baidu.com/hm.js", "/keep-quiet.js"},
+	{"https://cdn.matomo.cloud/", "/keep-quiet.js"},
+	{"piwik.js", "/keep-quiet.js"},
+	{"matomo.js", "/keep-quiet.js"},
+	{"cnzz.com/z_stat.php", "/keep-quiet.js"},
+}
+
 func MuteNoise(body []byte) []byte {
-	content := UpdateBody(body, []byte("https://www.googletagmanager.com/gtag/js"), []byte("/keep-quiet.js"))
-	content = UpdateBody(content, []byte("https://www.google-analytics.com/analytics.js"), []byte("/keep-quiet.js"))
-	content = UpdateBody(content, []byte("https://hm.baidu.com/hm.js"), []byte("/keep-quiet.js"))
+	content := body
+	for _, pair := range noiseReplacements {
+		content = UpdateBody(content, []byte(pair[0]), []byte(pair[1]))
+	}
 	return content
 }
 
@@ -46,57 +51,45 @@ type UpdateJob struct {
 	To   string
 }
 
-func Forward(port int) func(c *gin.Context) {
-	target := fmt.Sprintf("http://%s:%d", config.DOCS_INTERNAL_HOST, port)
-	url, _ := url.Parse(target)
-	internal := httputil.NewSingleHostReverseProxy(url)
-	return func(c *gin.Context) {
-		internal.ModifyResponse = func(response *http.Response) error {
-			if len(config.PostRules) == 0 || response.ContentLength == 0 || response.Body == nil {
-				return nil
-			}
+func PostProcess() fiber.Handler {
+	return func(c fiber.Ctx) error {
+		if err := c.Next(); err != nil {
+			return err
+		}
 
-			mimeType := strings.ToLower(response.Header.Get("Content-Type"))
-			needUpdate := false
-
-			var jobs []UpdateJob
-			for _, rule := range config.PostRules {
-				// match rule type
-				if strings.HasPrefix(mimeType, rule.Type) {
-					// match rule dir
-					if rule.Dir == "*" || strings.HasPrefix(c.Request.URL.Path, rule.Dir) {
-						needUpdate = true
-						var job UpdateJob
-						job.From = rule.From
-						job.To = rule.To
-						jobs = append(jobs, job)
-					}
-				}
-			}
-
-			// only allow html or need update content
-			if mimeType != "text/html" && !needUpdate {
-				return nil
-			}
-
-			body, err := io.ReadAll(response.Body)
-			if err != nil {
-				return err
-			}
-			response.Body.Close()
-			bodyUpdated := MuteNoise(body)
-
-			for _, job := range jobs {
-				bodyUpdated = UpdateBody(bodyUpdated, []byte(job.From), []byte(job.To))
-			}
-
-			bodyLength := len(bodyUpdated)
-			response.Body = io.NopCloser(bytes.NewReader(bodyUpdated))
-			response.ContentLength = int64(bodyLength)
-			response.Header.Set("Content-Length", strconv.Itoa(bodyLength))
+		body := c.Response().Body()
+		if len(body) == 0 {
 			return nil
 		}
 
-		internal.ServeHTTP(c.Writer, c.Request)
+		mimeType := strings.ToLower(string(c.Response().Header.ContentType()))
+		needUpdate := false
+
+		var jobs []UpdateJob
+		for _, rule := range config.PostRules {
+			if strings.HasPrefix(mimeType, rule.Type) {
+				if rule.Dir == "*" || strings.HasPrefix(c.Path(), rule.Dir) {
+					needUpdate = true
+					jobs = append(jobs, UpdateJob{From: rule.From, To: rule.To})
+				}
+			}
+		}
+
+		if !strings.HasPrefix(mimeType, "text/html") && !needUpdate {
+			return nil
+		}
+
+		bodyUpdated := body
+		if strings.HasPrefix(mimeType, "text/html") {
+			bodyUpdated = MuteNoise(bodyUpdated)
+		}
+		for _, job := range jobs {
+			bodyUpdated = UpdateBody(bodyUpdated, []byte(job.From), []byte(job.To))
+		}
+
+		if !bytes.Equal(body, bodyUpdated) {
+			c.Response().SetBody(bodyUpdated)
+		}
+		return nil
 	}
 }

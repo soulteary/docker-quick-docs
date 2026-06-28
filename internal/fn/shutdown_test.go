@@ -14,20 +14,25 @@
  * limitations under the License.
  */
 
-package main
+package fn_test
 
 import (
-	"embed"
-	"log"
+	"testing"
 
-	"github.com/soulteary/docker-quick-docs/internal/server"
-	"github.com/soulteary/docker-quick-docs/internal/version"
+	"github.com/stretchr/testify/require"
 )
 
-//go:embed docs
-var EmbedFS embed.FS
+type mockShutdownApp struct {
+	called bool
+}
 
-func main() {
-	log.Println("Quick Docs", version.Version)
-	server.Launch(EmbedFS)
+func (m *mockShutdownApp) Shutdown() error {
+	m.called = true
+	return nil
+}
+
+func TestMockShutdownApp(t *testing.T) {
+	mock := &mockShutdownApp{}
+	require.NoError(t, mock.Shutdown())
+	require.True(t, mock.called)
 }

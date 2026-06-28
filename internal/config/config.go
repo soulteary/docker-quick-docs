@@ -1,5 +1,5 @@
 /**
- * Copyright 2023-2025 Su Yang (soulteary)
+ * Copyright 2024-2026 Su Yang (soulteary)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package config
 
 import (
+	"bytes"
 	"encoding/json"
 	"log"
 	"os"
@@ -49,35 +50,56 @@ type PostRule struct {
 
 var PostRules []PostRule
 
+func unmarshalRules(buf []byte) ([]PostRule, error) {
+	buf = bytes.TrimSpace(buf)
+	var rules []PostRule
+	if err := json.Unmarshal(buf, &rules); err == nil {
+		return rules, nil
+	}
+	var single PostRule
+	if err := json.Unmarshal(buf, &single); err != nil {
+		return nil, err
+	}
+	log.Println("配置文件为单个对象，已自动包装为数组")
+	return []PostRule{single}, nil
+}
+
 func GetConfig() {
 	buf, err := ReadConfigFile(DOCS_DEFAULT_CONFIG)
 	if err != nil {
 		return
 	}
-	err = json.Unmarshal(buf, &PostRules)
+	rules, err := unmarshalRules(buf)
 	if err != nil {
+		log.Println("解析配置文件失败:", err)
+		PostRules = nil
 		return
 	}
 
-	if len(PostRules) > 0 {
-		log.Println("解析配置文件成功，规则数量:", len(PostRules))
-		var rules []PostRule
-		for _, rule := range PostRules {
-			// skip empty from rules
-			if rule.From == "" {
-				continue
-			}
-			// fill default values
-			if rule.Dir == "" {
-				rule.Dir = "*"
-			}
-			// fill default values
-			if rule.Type == "" {
-				rule.Type = "html"
-			}
-			rule.Type = fn.FixResType(rule.Type)
-			rules = append(rules, rule)
-		}
-		PostRules = rules
+	if len(rules) == 0 {
+		PostRules = nil
+		return
 	}
+
+	log.Println("解析配置文件成功，规则数量:", len(rules))
+	var normalized []PostRule
+	for _, rule := range rules {
+		if rule.From == "" {
+			log.Println("跳过无效规则: from 为空")
+			continue
+		}
+		if rule.To == "" {
+			log.Println("跳过无效规则: to 为空")
+			continue
+		}
+		if rule.Dir == "" {
+			rule.Dir = "*"
+		}
+		if rule.Type == "" {
+			rule.Type = "html"
+		}
+		rule.Type = fn.FixResType(rule.Type)
+		normalized = append(normalized, rule)
+	}
+	PostRules = normalized
 }

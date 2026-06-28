@@ -1,5 +1,5 @@
 /**
- * Copyright 2023-2025 Su Yang (soulteary)
+ * Copyright 2024-2026 Su Yang (soulteary)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ func TestReadConfigFileSuccess(t *testing.T) {
 
 // TestReadConfigFileEnvVar tests if ReadConfigFile correctly reads from CONFIG environment variable.
 func TestReadConfigFileEnvVar(t *testing.T) {
-	const configFileContent = `{"from":"env_from","to":"env_to"}`
+	const configFileContent = `[{"from":"env_from","to":"env_to"}]`
 	// Create a temporary file simulating the config.json
 	tmpfile, err := os.CreateTemp(".", "env_config.json")
 	if err != nil {
@@ -157,5 +157,61 @@ func TestGetConfigParseError(t *testing.T) {
 
 	config.GetConfig()
 
-	assert.Equal(t, len(config.PostRules), 0)
+	assert.Nil(t, config.PostRules)
+}
+
+func TestGetConfigSingleObject(t *testing.T) {
+	const configFileContent = `{"from":"/source","to":"/destination"}`
+
+	tmpfile, err := os.CreateTemp(".", "config.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(tmpfile.Name())
+
+	if _, err := tmpfile.Write([]byte(configFileContent)); err != nil {
+		t.Fatal(err)
+	}
+	if err := tmpfile.Close(); err != nil {
+		t.Fatal(err)
+	}
+
+	os.Setenv("CONFIG", tmpfile.Name())
+	defer os.Unsetenv("CONFIG")
+
+	config.PostRules = nil
+	config.GetConfig()
+
+	require := assert.New(t)
+	require.Len(config.PostRules, 1)
+	require.Equal("/source", config.PostRules[0].From)
+	require.Equal("/destination", config.PostRules[0].To)
+	require.Equal("text/html", config.PostRules[0].Type)
+	require.Equal("*", config.PostRules[0].Dir)
+	config.PostRules = nil
+}
+
+func TestGetConfigSkipsEmptyTo(t *testing.T) {
+	const configFileContent = `[{"from":"/source","to":""}]`
+
+	tmpfile, err := os.CreateTemp(".", "config.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Remove(tmpfile.Name())
+
+	if _, err := tmpfile.Write([]byte(configFileContent)); err != nil {
+		t.Fatal(err)
+	}
+	if err := tmpfile.Close(); err != nil {
+		t.Fatal(err)
+	}
+
+	os.Setenv("CONFIG", tmpfile.Name())
+	defer os.Unsetenv("CONFIG")
+
+	config.PostRules = nil
+	config.GetConfig()
+
+	assert.Empty(t, config.PostRules)
 }

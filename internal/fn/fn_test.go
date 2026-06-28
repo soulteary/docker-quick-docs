@@ -1,5 +1,5 @@
 /**
- * Copyright 2023-2025 Su Yang (soulteary)
+ * Copyright 2024-2026 Su Yang (soulteary)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,32 +24,52 @@ import (
 )
 
 func TestGetPort(t *testing.T) {
-	// Test with no environment variable set
 	os.Unsetenv("PORT")
 	port := fn.GetPort()
 	if port != 8080 {
 		t.Errorf("GetPort() without PORT set = %d; want 8080", port)
 	}
 
-	// Test with invalid integer value
 	os.Setenv("PORT", "invalid")
 	port = fn.GetPort()
 	if port != 8080 {
 		t.Errorf("GetPort() with invalid PORT = %d; want 8080", port)
 	}
 
-	// Test with valid integer but out of range value
 	os.Setenv("PORT", "-1")
 	port = fn.GetPort()
 	if port != 8080 {
 		t.Errorf("GetPort() with out-of-range PORT = %d; want 8080", port)
 	}
 
-	// Test with valid port number
 	os.Setenv("PORT", "5000")
 	port = fn.GetPort()
 	if port != 5000 {
 		t.Errorf("GetPort() with valid PORT = %d; want 5000", port)
+	}
+}
+
+func TestGetDocsDir(t *testing.T) {
+	os.Unsetenv("DOCS")
+	if got := fn.GetDocsDir(); got != "docs" {
+		t.Errorf("GetDocsDir() = %q; want docs", got)
+	}
+
+	os.Setenv("DOCS", "  my-docs  ")
+	if got := fn.GetDocsDir(); got != "my-docs" {
+		t.Errorf("GetDocsDir() = %q; want my-docs", got)
+	}
+}
+
+func TestGetHost(t *testing.T) {
+	os.Unsetenv("HOST")
+	if got := fn.GetHost(); got != "0.0.0.0" {
+		t.Errorf("GetHost() = %q; want 0.0.0.0", got)
+	}
+
+	os.Setenv("HOST", "127.0.0.1")
+	if got := fn.GetHost(); got != "127.0.0.1" {
+		t.Errorf("GetHost() = %q; want 127.0.0.1", got)
 	}
 }
 
@@ -76,6 +96,39 @@ func TestIsEmbedMode(t *testing.T) {
 		if result != c.value {
 			t.Errorf("IsEmbedMode() with EMBED=%q = %v; want %v", c.env, result, c.value)
 		}
+	}
+}
+
+func TestIsIndexEnabled(t *testing.T) {
+	cases := []struct {
+		env   string
+		value bool
+	}{
+		{"on", true},
+		{"ON", true},
+		{"off", false},
+		{"", false},
+	}
+
+	for _, c := range cases {
+		os.Setenv("INDEX", c.env)
+		if got := fn.IsIndexEnabled(); got != c.value {
+			t.Errorf("IsIndexEnabled() with INDEX=%q = %v; want %v", c.env, got, c.value)
+		}
+	}
+}
+
+func TestIndexNames(t *testing.T) {
+	os.Setenv("INDEX", "off")
+	names := fn.IndexNames()
+	if len(names) != 1 || names[0] != ".__no_index__" {
+		t.Errorf("IndexNames() off = %v; want [.__no_index__]", names)
+	}
+
+	os.Setenv("INDEX", "on")
+	names = fn.IndexNames()
+	if len(names) != 1 || names[0] != "index.html" {
+		t.Errorf("IndexNames() on = %v; want [index.html]", names)
 	}
 }
 

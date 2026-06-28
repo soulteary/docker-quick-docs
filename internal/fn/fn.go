@@ -1,5 +1,5 @@
 /**
- * Copyright 2023-2025 Su Yang (soulteary)
+ * Copyright 2024-2026 Su Yang (soulteary)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,13 @@ import (
 	"strings"
 )
 
+const (
+	defaultPort    = 8080
+	defaultDocsDir = "docs"
+	defaultHost    = "0.0.0.0"
+)
+
 func GetPort() int {
-	defaultPort := 8080
 	portStr := os.Getenv("PORT")
 
 	if portStr == "" {
@@ -45,8 +50,35 @@ func GetPort() int {
 	return port
 }
 
+func GetDocsDir() string {
+	docsDir := strings.TrimSpace(os.Getenv("DOCS"))
+	if docsDir == "" {
+		return defaultDocsDir
+	}
+	return docsDir
+}
+
+func GetHost() string {
+	host := strings.TrimSpace(os.Getenv("HOST"))
+	if host == "" {
+		return defaultHost
+	}
+	return host
+}
+
 func IsEmbedMode() bool {
 	return strings.ToLower(strings.TrimSpace(os.Getenv("EMBED"))) == "on"
+}
+
+func IsIndexEnabled() bool {
+	return strings.ToLower(strings.TrimSpace(os.Getenv("INDEX"))) == "on"
+}
+
+func IndexNames() []string {
+	if IsIndexEnabled() {
+		return []string{"index.html"}
+	}
+	return []string{".__no_index__"}
 }
 
 func FixResType(typed string) string {

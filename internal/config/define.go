@@ -1,5 +1,5 @@
 /**
- * Copyright 2023-2025 Su Yang (soulteary)
+ * Copyright 2024-2026 Su Yang (soulteary)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,8 +17,5 @@
 package config
 
 const (
-	DOCS_DIR_ROOT       = "docs"
-	DOCS_PUBLIC_HOST    = "0.0.0.0"
-	DOCS_INTERNAL_HOST  = "127.0.0.1"
 	DOCS_DEFAULT_CONFIG = "./config.json"
 )
