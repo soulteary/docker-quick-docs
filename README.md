@@ -22,7 +22,7 @@
 ![](.github/dockerhub.jpg)
 
 ```bash
-docker pull soulteary/docker-quick-docs:v0.1.8
+docker pull soulteary/docker-quick-docs:v0.2.0
 # EN: or pull the latest tag automatically
 # ZH: 或者直接拉取最新的镜像标签
 docker pull soulteary/docker-quick-docs
@@ -66,7 +66,7 @@ docker run --rm -it \
   -v $(pwd)/docs:/app/docs \
   -v $(pwd)/config.json:/app/config.json \
   -p 8080:8080 \
-  soulteary/docker-quick-docs:v0.1.8
+  soulteary/docker-quick-docs:v0.2.0
 
 # EN: Docker container (single site, auto-serve index.html)
 # ZH: Docker 容器（单站点，自动打开 index.html）
@@ -75,7 +75,7 @@ docker run --rm -it \
   -v $(pwd)/docs:/app/docs \
   -v $(pwd)/config.json:/app/config.json \
   -p 8080:8080 \
-  soulteary/docker-quick-docs:v0.1.8
+  soulteary/docker-quick-docs:v0.2.0
 ```
 
 - **EN**: When the application starts you should see logs similar to the following.
@@ -84,7 +84,7 @@ docker run --rm -it \
 ```bash
 2024/01/04 10:38:31 Quick Docs
 2024/01/04 10:38:31 未设置环境变量 `PORT`，使用默认端口：8080
-2024/01/04 10:38:31 解析配置文件成功，规则数量: 5
+2024/01/04 10:38:31 解析配置文件成功，规则数量: 6
 2024/01/04 10:38:31 监听 http://0.0.0.0:8080
 ```
 
@@ -115,7 +115,7 @@ docker run --rm -it -e PORT=8080 \
   -v $(pwd)/docs:/app/docs \
   -v $(pwd)/config.json:/app/config.json \
   -p 8080:8080 \
-  soulteary/docker-quick-docs:v0.1.8
+  soulteary/docker-quick-docs:v0.2.0
 ```
 
 ### Static file serving | 静态文件服务
