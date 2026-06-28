@@ -25,11 +25,14 @@ builds:
 
 dockers:
 
-  - image_templates:
+  - <<: &docker_defaults
+      dockerfile: docker/Dockerfile.goreleaser
+      use: buildx
+      extra_files:
+        - config.json
+    image_templates:
       - "soulteary/docker-quick-docs:linux-amd64-{{ .Tag }}"
       - "soulteary/docker-quick-docs:linux-amd64"
-    dockerfile: docker/Dockerfile.goreleaser
-    use: buildx
     goarch: amd64
     build_flag_templates:
       - "--pull"
@@ -43,11 +46,10 @@ dockers:
       - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
       - "--label=org.opencontainers.image.licenses=Apache-V2"
 
-  - image_templates:
+  - <<: *docker_defaults
+    image_templates:
       - "soulteary/docker-quick-docs:linux-arm64-{{ .Tag }}"
       - "soulteary/docker-quick-docs:linux-arm64"
-    dockerfile: docker/Dockerfile.goreleaser
-    use: buildx
     goos: linux
     goarch: arm64
     goarm: ''
@@ -63,11 +65,10 @@ dockers:
       - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
       - "--label=org.opencontainers.image.licenses=Apache-V2"
 
-  - image_templates:
+  - <<: *docker_defaults
+    image_templates:
       - "soulteary/docker-quick-docs:linux-armv7-{{ .Tag }}"
       - "soulteary/docker-quick-docs:linux-armv7"
-    dockerfile: docker/Dockerfile.goreleaser
-    use: buildx
     goos: linux
     goarch: arm
     goarm: "7"
@@ -83,11 +84,10 @@ dockers:
       - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
       - "--label=org.opencontainers.image.licenses=Apache-V2"
 
-  - image_templates:
+  - <<: *docker_defaults
+    image_templates:
       - "soulteary/docker-quick-docs:linux-armv6-{{ .Tag }}"
       - "soulteary/docker-quick-docs:linux-armv6"
-    dockerfile: docker/Dockerfile.goreleaser
-    use: buildx
     goos: linux
     goarch: arm
     goarm: "6"
