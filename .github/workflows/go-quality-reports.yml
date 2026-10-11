@@ -17,7 +17,6 @@ on:
         type: boolean
         required: false
         default: false
-  pull_request:
 permissions:
   contents: read
 concurrency:
@@ -60,7 +59,7 @@ jobs:
               sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
               query = urllib.parse.urlencode({"event": "push", "head_sha": sha, "per_page": 100})
               base = os.environ["GITHUB_API_URL"].rstrip("/")
-              workflow = os.environ["WORKFLOW_REF"].split("/.github/workflows/", 1)[1].split("@", 1)[0]
+              workflow = os.environ["WORKFLOW_REF"].split("/.github/workflows/", 1)[1].split("@refs/", 1)[0]
               workflow = urllib.parse.quote(workflow, safe="")
               url = f"{base}/repos/{os.environ['REPOSITORY']}/actions/workflows/{workflow}/runs?{query}"
               while url:
