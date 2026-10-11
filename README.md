@@ -1,6 +1,8 @@
 # Docker Quick Docs
 
-[![Release](https://github.com/soulteary/docker-quick-docs/actions/workflows/release.yaml/badge.svg)](https://github.com/soulteary/docker-quick-docs/actions/workflows/release.yaml)  [![CodeQL](https://github.com/soulteary/docker-quick-docs/actions/workflows/codeql.yml/badge.svg)](https://github.com/soulteary/docker-quick-docs/actions/workflows/codeql.yml) [![Go Report Card](https://goreportcard.com/badge/github.com/soulteary/docker-quick-docs)](https://goreportcard.com/report/github.com/soulteary/docker-quick-docs)
+[![Go Test Coverage](./.github/coverage.svg)](./.github/go-test-report.md) [![Go Report Card](./.github/goreportcard.svg)](./.github/goreportcard-report.md)
+
+[![Release](https://github.com/soulteary/docker-quick-docs/actions/workflows/release.yaml/badge.svg)](https://github.com/soulteary/docker-quick-docs/actions/workflows/release.yaml) [![CodeQL](https://github.com/soulteary/docker-quick-docs/actions/workflows/codeql.yml/badge.svg)](https://github.com/soulteary/docker-quick-docs/actions/workflows/codeql.yml)
 
 本地部署、能够快速访问的文档工具，用来改善 GitHub Pages 文档访问体验。The project offers a lightweight way to host documentation locally and browse it at high speed without depending on GitHub Pages.
 
