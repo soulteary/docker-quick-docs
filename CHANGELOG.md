@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.2] - 2026-10-22
+
+### Changed
+
+- Require Go 1.27.3 and align build images and CI toolchains.
+- Update compatible Go dependencies and published Kit versions; refresh module checksums.
+- Preserve the project toolchain after quality report generation.
+
 ## v0.2.0
 
 ### Highlights
